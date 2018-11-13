@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BookDao {
 	private Map<String, Book> books;
 	
 	BookDao(){
-		books = new HashMap<>();
+		books = new ConcurrentHashMap<>();
 		
 		Book book1 = new Book("Book1", "Teja","997-234-343",new Date(), "1");
 		Book book2 = new Book("Book2", "Pramod","848-484-292",new Date(), "2");
@@ -24,6 +26,12 @@ public class BookDao {
 	
 	Book getBook(String id){
 		return (books.get(id));
+	}
+	
+	Book addBook(Book book){
+		book.setId(UUID.randomUUID().toString());;
+		books.put(book.getId(), book);
+		return book;
 	}
 
 }
