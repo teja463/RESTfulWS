@@ -2,6 +2,16 @@ package site.tejap;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@JsonPropertyOrder({"id"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JacksonXmlRootElement(localName="book")
 public class Book {
 
 	private String title;
@@ -45,6 +55,8 @@ public class Book {
 	public void setPublished(Date published) {
 		this.published = published;
 	}
+	
+	@JacksonXmlProperty(isAttribute=true)
 	public String getId() {
 		return id;
 	}

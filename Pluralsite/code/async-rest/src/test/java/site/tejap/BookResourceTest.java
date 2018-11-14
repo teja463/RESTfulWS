@@ -1,6 +1,7 @@
 package site.tejap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
@@ -13,6 +14,9 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
+
+import com.jcabi.xml.XML;
+import com.jcabi.xml.XMLDocument;
 
 public class BookResourceTest extends JerseyTest {
 
@@ -47,5 +51,12 @@ public class BookResourceTest extends JerseyTest {
 		assertEquals(200, response.getStatus());
 		assertEquals("Added book", responseBook.getTitle());
 		
+	}
+	
+	@Test
+	public void getBooksAsXml(){
+		String output = target("books").request(MediaType.APPLICATION_XML).get().readEntity(String.class);
+		XML xml = new XMLDocument(output);
+//		System.out.println(xml.xpath("/books"));
 	}
 }
