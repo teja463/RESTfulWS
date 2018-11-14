@@ -8,8 +8,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import org.glassfish.jersey.server.ManagedAsync;
 
 @Path("books")
 public class BookResource {
@@ -18,22 +22,25 @@ public class BookResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Book> getBooks(){
-		return dao.getBooks();
+	@ManagedAsync
+	public void getBooks(@Suspended AsyncResponse response){
+		response.resume(dao.getBooks());
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Book getBook(@PathParam("id") String id){
-		return dao.getBook(id);
+	@ManagedAsync
+	public void getBook(@PathParam("id") String id, @Suspended AsyncResponse response){
+		response.resume(dao.getBook(id));
 	}
 	
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Book addBook(Book book){
-		return dao.addBook(book);
+	@ManagedAsync
+	public void addBook(Book book, @Suspended AsyncResponse response ){
+		response.resume(dao.addBook(book));
 	}
 	
 }
