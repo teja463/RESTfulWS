@@ -24,8 +24,12 @@ public class BookDao {
 		return (books.values());
 	}
 	
-	Book getBook(String id){
-		return (books.get(id));
+	Book getBook(String id) throws BookNotFoundException{
+		if(books.containsKey(id)){
+			return (books.get(id));
+		}
+		
+		throw new BookNotFoundException("Book with the id: "+id+" not found");
 	}
 	
 	Book addBook(Book book){

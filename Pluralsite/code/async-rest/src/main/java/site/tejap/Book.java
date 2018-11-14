@@ -2,6 +2,8 @@ package site.tejap;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,7 +16,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName="book")
 public class Book {
 
+	@NotNull(message="Title is required")
 	private String title;
+	@NotNull(message="Author is required")
 	private String author;
 	private String isbn;
 	private Date published;

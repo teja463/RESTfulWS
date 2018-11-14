@@ -2,6 +2,8 @@ package site.tejap;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,14 +34,19 @@ public class BookResource {
 	@Produces({"application/json;qs=1","application/xml;qs=0.5"})
 	@ManagedAsync
 	public void getBook(@PathParam("id") String id, @Suspended AsyncResponse response){
-		response.resume(dao.getBook(id));
+		try {
+			Book book = dao.getBook(id);
+			response.resume(book);
+		} catch (BookNotFoundException e) {
+			response.resume(e);
+		}
 	}
 	
 	@POST
 	@Produces({"application/json;qs=1","application/xml;qs=0.5"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ManagedAsync
-	public void addBook(Book book, @Suspended AsyncResponse response ){
+	public void addBook(@Valid @NotNull Book book, @Suspended AsyncResponse response ){
 		response.resume(dao.addBook(book));
 	}
 	
