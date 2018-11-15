@@ -3,15 +3,19 @@ package site.tejap;
 import static org.junit.Assert.*;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.constraints.AssertTrue;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
@@ -34,6 +38,7 @@ public class BookResourceTest extends JerseyTest {
 		JacksonJsonProvider json = new JacksonJsonProvider();
 		json.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
 		clientConfig.register(json);
+		clientConfig.connectorProvider(new GrizzlyConnectorProvider());
 	}
 
 	Response addBook(String title, String author){
@@ -92,5 +97,14 @@ public class BookResourceTest extends JerseyTest {
 	public void bookNotFound(){
 		Response response = target("books").path("10").request().get();
 		assertEquals(404, response.getStatus());
+	}
+	
+	@Test
+	public void updateBook(){
+		Map<String, Object> book = new HashMap<>();
+		book.put("author", "updated author");
+		Entity<Map<String, Object>> entity = Entity.entity(book, MediaType.APPLICATION_JSON);
+		Response response = target("books").path("/1").request().build("PATCH", entity).invoke();
+		assertEquals(200, response.getStatus());
 	}
 }

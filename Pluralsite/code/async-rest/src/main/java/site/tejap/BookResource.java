@@ -1,6 +1,5 @@
 package site.tejap;
 
-import java.util.Collection;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -48,6 +47,20 @@ public class BookResource {
 	@ManagedAsync
 	public void addBook(@Valid @NotNull Book book, @Suspended AsyncResponse response ){
 		response.resume(dao.addBook(book));
+	}
+	
+	@Path("/{id}")
+	@PATCH
+	@Produces({"application/json;qs=1","application/xml;qs=0.5"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ManagedAsync
+	public void updateBook(@PathParam("id") String id, Book book, @Suspended AsyncResponse response){
+		try {
+			Book updateBook = dao.updateBook(id, book);
+			response.resume(updateBook);
+		} catch (BookNotFoundException e) {
+			response.resume(e);
+		}
 	}
 	
 }

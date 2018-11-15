@@ -2,7 +2,6 @@ package site.tejap;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,4 +37,17 @@ public class BookDao {
 		return book;
 	}
 
+	Book updateBook(String id, Book updates) throws BookNotFoundException{ 
+		if(books.containsKey(id)){
+			Book book = books.get(id);
+			if(updates.getTitle()!=null)
+				book.setTitle(updates.getTitle());
+			if(updates.getAuthor()!=null)
+				book.setAuthor(updates.getAuthor());
+			return book;
+		}else{
+			throw new BookNotFoundException("Book with id "+id+" not found");
+		}
+		
+	}
 }
