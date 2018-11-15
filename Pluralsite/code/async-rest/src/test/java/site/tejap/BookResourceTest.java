@@ -6,9 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.constraints.AssertTrue;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -106,5 +104,33 @@ public class BookResourceTest extends JerseyTest {
 		Entity<Map<String, Object>> entity = Entity.entity(book, MediaType.APPLICATION_JSON);
 		Response response = target("books").path("/1").request().build("PATCH", entity).invoke();
 		assertEquals(200, response.getStatus());
+	}
+	
+	@Test
+	public void httpMethodOverrideTest(){
+		Map<String, Object> book = new HashMap<>();
+		book.put("author", "author is teja");
+		Entity<Map<String, Object>> entity = Entity.entity(book, MediaType.APPLICATION_JSON);
+		Response response = target("books").path("/1").queryParam("_method", "PATCH").request().post(entity);
+		assertEquals(200, response.getStatus());
+		
+		Response response2 = target("books").path("/1").request().get();
+		Book readEntity = response2.readEntity(Book.class);
+		assertEquals(200, response2.getStatus());
+		assertEquals("author is teja", readEntity.getAuthor());
+	}
+
+	@Test
+	public void testPoweredByHeader(){
+		Response response = target("books").path("1").request().get();
+		String headerString = response.getHeaderString("X-Powered-By");
+		assertEquals("Pluralsight", headerString);
+	}
+	
+	@Test
+	public void testNotPoweredByHeader(){
+		Response response = target("books").request().get();
+		String headerString = response.getHeaderString("X-Powered-By");
+		assertNull(headerString);
 	}
 }

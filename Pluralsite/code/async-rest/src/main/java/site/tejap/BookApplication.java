@@ -3,6 +3,7 @@ package site.tejap;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
+import org.glassfish.jersey.server.filter.HttpMethodOverrideFilter;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
@@ -18,6 +19,7 @@ public class BookApplication extends ResourceConfig {
 			configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 			.configure(SerializationFeature.INDENT_OUTPUT, true);
 	
+
 	public BookApplication(final BookDao dao) {
 		packages("site.tejap").register(new AbstractBinder() {
 
@@ -27,7 +29,8 @@ public class BookApplication extends ResourceConfig {
 
 			}
 		}).register(json)
-		.register(xml);
+		.register(xml)
+		.register(HttpMethodOverrideFilter.class);
 		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 	}
 }

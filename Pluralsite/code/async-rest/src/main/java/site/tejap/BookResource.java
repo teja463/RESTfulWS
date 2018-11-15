@@ -21,6 +21,7 @@ public class BookResource {
 
 	@Context BookDao dao;
 	
+	
 	@GET
 	@Produces({"application/json;qs=1","application/xml;qs=0.5"})
 	@ManagedAsync
@@ -28,6 +29,8 @@ public class BookResource {
 		response.resume(dao.getBooks());
 	}
 	
+	
+	@PoweredBy("Pluralsight")
 	@GET
 	@Path("/{id}")
 	@Produces({"application/json;qs=1","application/xml;qs=0.5"})
