@@ -32,5 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Employee getEmployee(String empId) throws EmployeeNotFoundException {
 		return dao.getEmployee(empId);
 	}
+
+	@Override
+	public boolean checkLogin(Employee employee) throws EmployeeNotFoundException {
+		return dao.checkLogin(employee);
+	}
 	
 }

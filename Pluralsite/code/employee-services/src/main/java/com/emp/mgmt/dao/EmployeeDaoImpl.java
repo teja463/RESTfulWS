@@ -2,6 +2,7 @@ package com.emp.mgmt.dao;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,6 +52,21 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		}else {
 			throw new EmployeeNotFoundException("Employee with id "+empId + " not found");
 		}
+	}
+
+	@Override
+	public boolean checkLogin(Employee employee) throws EmployeeNotFoundException {
+		boolean canLogin = false;
+		for(Entry<String, Employee> emp : employees.entrySet()){
+			if(emp.getValue().getUsername().equals(employee.getUsername()) && emp.getValue().getPassword().equals(employee.getPassword())){
+				canLogin = true;
+				break;
+			}
+		}
+		if(!canLogin){
+			throw new EmployeeNotFoundException("Employee not found");
+		}
+		return canLogin;
 	}
 	
 	

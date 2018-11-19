@@ -3,6 +3,7 @@ package com.emp.mgmt.resources;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -40,7 +41,7 @@ public class EmployeeResource {
 	}
 	
 	@PUT
-	@Path("deleteEmp/{empId}")
+	@Path("/deleteEmp/{empId}")
 	@ManagedAsync
 	public void deleteEmployee(@PathParam("empId") String empId, @Suspended AsyncResponse response){
 		try {
@@ -53,12 +54,26 @@ public class EmployeeResource {
 	}
 	
 	@GET
-	@Path("getByEmpId/{empId}")
+	@Path("/getByEmpId/{empId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ManagedAsync
 	public void getEmployeeDetails(@PathParam("empId") String empId, @Suspended AsyncResponse response){
 		try {
 			response.resume(svc.getEmployee(empId));
+		} catch (EmployeeNotFoundException e) {
+			response.resume(e);
+		}
+	}
+	
+	@POST
+	@Path("/checkLogin")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ManagedAsync
+	public void checkLogin(Employee employee, @Suspended AsyncResponse response){
+		try {
+			boolean checkLogin = svc.checkLogin(employee);
+			if(checkLogin)
+				response.resume("Success");
 		} catch (EmployeeNotFoundException e) {
 			response.resume(e);
 		}

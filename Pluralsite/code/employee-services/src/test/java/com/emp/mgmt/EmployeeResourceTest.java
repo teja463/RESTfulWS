@@ -1,7 +1,7 @@
 package com.emp.mgmt;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertNotNull;
 import java.util.Collection;
 
 import javax.ws.rs.client.Entity;
@@ -14,13 +14,10 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.grizzly.connector.GrizzlyConnectorProvider;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.emp.mgmt.config.ApplicationConfig;
-import com.emp.mgmt.dao.EmployeeDaoImpl;
 import com.emp.mgmt.model.Employee;
-import com.emp.mgmt.svc.EmployeeServiceImpl;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
@@ -94,5 +91,30 @@ public class EmployeeResourceTest extends JerseyTest{
 		Response response = target("employee").path("getByEmpId").path("44").request().get();
 		assertEquals(404, response.getStatus());
 		
+	}
+	
+	@Test
+	public void loginTest(){
+		Employee employee = new Employee();
+		employee.setUsername("pramod");
+		employee.setPassword("pramod");
+		
+		Response response = target("employee").path("checkLogin").request().post(Entity.entity(employee, MediaType.APPLICATION_JSON));
+		String message = response.readEntity(String.class);
+		assertEquals(200, response.getStatus());
+		assertEquals("Success", message);
+		
+	}
+	
+	@Test
+	public void loginFailTest(){
+		Employee employee = new Employee();
+		employee.setUsername("pramod");
+		employee.setPassword("test");
+		
+		Response response = target("employee").path("checkLogin").request().post(Entity.entity(employee, MediaType.APPLICATION_JSON));
+		String message = response.readEntity(String.class);
+		assertEquals(404, response.getStatus());
+		assertNotNull(employee.toString());
 	}
 }
