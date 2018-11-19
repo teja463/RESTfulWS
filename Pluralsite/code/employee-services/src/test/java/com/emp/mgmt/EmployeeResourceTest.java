@@ -50,7 +50,6 @@ public class EmployeeResourceTest extends JerseyTest{
 	}
 	
 	@Test
-	@Ignore
 	public void addEmployeeTest(){
 		Employee employee = new Employee("", "chaitu", "chaitu", "SSPC Kumar", "chaitu@google.com", "09/02/1986", "Male", "What is your hobby", "Guitar");
 		Entity<Employee> employeeEntity = Entity.entity(employee, MediaType.APPLICATION_JSON);

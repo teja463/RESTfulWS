@@ -26,10 +26,8 @@ public class Main {
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer() {
-    	final EmployeeService svc = new EmployeeServiceImpl();
-    	final EmployeeDao dao = new EmployeeDaoImpl();
     	
-        final ResourceConfig rc = new ApplicationConfig(dao, svc);
+        final ResourceConfig rc = new ApplicationConfig();
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
