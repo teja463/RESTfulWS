@@ -5,6 +5,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.server.ManagedAsync;
 
+import com.emp.mgmt.exception.EmployeeNotFoundException;
 import com.emp.mgmt.model.Employee;
 import com.emp.mgmt.svc.EmployeeService;
 
@@ -25,7 +27,6 @@ public class EmployeeResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ManagedAsync
 	public void getAllEmpDetails(@Suspended AsyncResponse response){
-		System.out.println("in resource");
 		response.resume(svc.getEmployees());
 	}
 	
@@ -35,9 +36,19 @@ public class EmployeeResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ManagedAsync
 	public void addEmployee(Employee employee, @Suspended AsyncResponse response){
-		System.out.println(employee);
-		Employee addEmployee = svc.addEmployee(employee);
-		System.out.println("added employee" + addEmployee);
-		response.resume(addEmployee);
+		response.resume(svc.addEmployee(employee));
+	}
+	
+	@PUT
+	@Path("deleteEmp/{empId}")
+	@ManagedAsync
+	public void deleteEmployee(@PathParam("empId") String empId, @Suspended AsyncResponse response){
+		try {
+			boolean deleteEmployee = svc.deleteEmployee(empId);
+			if(deleteEmployee)
+				response.resume("Success");
+		} catch (EmployeeNotFoundException e) {
+			response.resume(e);
+		}
 	}
 }

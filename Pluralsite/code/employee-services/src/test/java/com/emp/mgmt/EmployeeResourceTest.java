@@ -63,5 +63,19 @@ public class EmployeeResourceTest extends JerseyTest{
 		assertEquals(3, employees.size());
 	}
 	
+	@Test
+	public void deleteEmployeeTest(){
+		Response response = target("employee").path("deleteEmp").path("1").request().put(Entity.entity("Sample", MediaType.TEXT_PLAIN));
+		String message = response.readEntity(String.class);
+		
+		assertEquals(200, response.getStatus());
+		assertEquals("Success", message);
+	}
 	
+	@Test
+	public void deleteEmployeeNotFoundExceptionTest(){
+		Response response = target("employee").path("deleteEmp").path("122").request().put(Entity.entity("Sample", MediaType.TEXT_PLAIN));
+//		String message = response.readEntity(String.class);
+		assertEquals(404, response.getStatus());
+	}
 }

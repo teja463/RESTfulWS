@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.emp.mgmt.exception.EmployeeNotFoundException;
 import com.emp.mgmt.model.Employee;
 
 public class EmployeeDaoImpl implements EmployeeDao{
@@ -22,15 +23,25 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
 	@Override
 	public Collection<Employee> getEmployees() {
-		System.out.println("in dao");
 		return employees.values();
 	}
 
 	@Override
 	public Employee addEmployee(Employee employee) {
-		System.out.println("in dao "+ employee);
 		employee.setEmpId(UUID.randomUUID().toString());
 		employees.put(employee.getEmpId(), employee);
 		return employee;
+	}
+
+	@Override
+	public boolean deleteEmployee(String empId) throws EmployeeNotFoundException {
+		if(employees.containsKey(empId)){
+			employees.remove(empId);
+			
+			return true;
+		}else {
+			System.out.println("employee not found");
+			throw new EmployeeNotFoundException("Employee with id "+empId + " not found");
+		}
 	}
 }

@@ -8,10 +8,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.emp.mgmt.config.ApplicationConfig;
-import com.emp.mgmt.dao.EmployeeDao;
-import com.emp.mgmt.dao.EmployeeDaoImpl;
-import com.emp.mgmt.svc.EmployeeService;
-import com.emp.mgmt.svc.EmployeeServiceImpl;
 
 /**
  * Main class.

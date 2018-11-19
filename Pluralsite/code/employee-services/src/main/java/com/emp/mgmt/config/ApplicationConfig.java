@@ -19,7 +19,7 @@ public class ApplicationConfig extends ResourceConfig{
 			configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).
 			configure(SerializationFeature.INDENT_OUTPUT,true);
 	
-	public ApplicationConfig(final EmployeeDao dao, final EmployeeService svc){
+	public ApplicationConfig(){
 		
 		packages("com.emp.mgmt").
 			register(json).
