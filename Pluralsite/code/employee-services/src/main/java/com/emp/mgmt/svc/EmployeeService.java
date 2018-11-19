@@ -7,4 +7,6 @@ import com.emp.mgmt.model.Employee;
 public interface EmployeeService {
 
 	public Collection<Employee> getEmployees();
+
+	public Employee addEmployee(Employee employee);
 }

@@ -2,6 +2,7 @@ package com.emp.mgmt.dao;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.emp.mgmt.model.Employee;
@@ -23,5 +24,13 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public Collection<Employee> getEmployees() {
 		System.out.println("in dao");
 		return employees.values();
+	}
+
+	@Override
+	public Employee addEmployee(Employee employee) {
+		System.out.println("in dao "+ employee);
+		employee.setEmpId(UUID.randomUUID().toString());
+		employees.put(employee.getEmpId(), employee);
+		return employee;
 	}
 }

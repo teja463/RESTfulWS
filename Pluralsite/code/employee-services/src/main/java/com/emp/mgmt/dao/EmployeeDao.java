@@ -6,4 +6,6 @@ import com.emp.mgmt.model.Employee;
 
 public interface EmployeeDao {
 	public Collection<Employee> getEmployees();
+
+	public Employee addEmployee(Employee employee);
 }
