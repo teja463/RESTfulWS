@@ -78,4 +78,21 @@ public class EmployeeResourceTest extends JerseyTest{
 //		String message = response.readEntity(String.class);
 		assertEquals(404, response.getStatus());
 	}
+	
+	@Test
+	public void getEmployeeDetailsTest(){
+		Response response = target("employee").path("getByEmpId").path("2").request().get();
+		Employee employee = response.readEntity(Employee.class);
+		
+		assertEquals(200, response.getStatus());
+		assertEquals("pramod", employee.getUsername());
+		
+	}
+	
+	@Test
+	public void getEmployeeDetailsNotFoundTest(){
+		Response response = target("employee").path("getByEmpId").path("44").request().get();
+		assertEquals(404, response.getStatus());
+		
+	}
 }

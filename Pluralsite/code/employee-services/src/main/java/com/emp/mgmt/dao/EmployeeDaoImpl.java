@@ -40,8 +40,18 @@ public class EmployeeDaoImpl implements EmployeeDao{
 			
 			return true;
 		}else {
-			System.out.println("employee not found");
 			throw new EmployeeNotFoundException("Employee with id "+empId + " not found");
 		}
 	}
+
+	@Override
+	public Employee getEmployee(String empId) throws EmployeeNotFoundException {
+		if(employees.containsKey(empId)){
+			return employees.get(empId);
+		}else {
+			throw new EmployeeNotFoundException("Employee with id "+empId + " not found");
+		}
+	}
+	
+	
 }

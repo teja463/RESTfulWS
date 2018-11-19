@@ -12,4 +12,6 @@ public interface EmployeeService {
 	public Employee addEmployee(Employee employee);
 	
 	public boolean deleteEmployee(String empId)  throws EmployeeNotFoundException;
+	
+	public Employee getEmployee(String empId) throws EmployeeNotFoundException;
 }

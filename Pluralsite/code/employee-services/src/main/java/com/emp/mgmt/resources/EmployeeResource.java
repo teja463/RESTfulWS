@@ -51,4 +51,16 @@ public class EmployeeResource {
 			response.resume(e);
 		}
 	}
+	
+	@GET
+	@Path("getByEmpId/{empId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ManagedAsync
+	public void getEmployeeDetails(@PathParam("empId") String empId, @Suspended AsyncResponse response){
+		try {
+			response.resume(svc.getEmployee(empId));
+		} catch (EmployeeNotFoundException e) {
+			response.resume(e);
+		}
+	}
 }

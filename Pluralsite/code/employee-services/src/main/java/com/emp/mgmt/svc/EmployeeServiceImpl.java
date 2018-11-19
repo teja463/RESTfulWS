@@ -27,5 +27,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public boolean deleteEmployee(String empId) throws EmployeeNotFoundException {
 		return dao.deleteEmployee(empId);
 	}
+
+	@Override
+	public Employee getEmployee(String empId) throws EmployeeNotFoundException {
+		return dao.getEmployee(empId);
+	}
 	
 }
